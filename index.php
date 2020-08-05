@@ -74,7 +74,7 @@ if (!isset($_SESSION["logged"])) {
             d.album = $("#txtAlbum").val();
 
             $.ajax({
-                url: "http://localhost:8888/api.php",
+                url: "http://localhost/api.php",
                 type: "POST",
                 data: d,
                 success: function(res) {
@@ -114,7 +114,7 @@ if (!isset($_SESSION["logged"])) {
             d.url = link;
             d.op = "meta";
             $.ajax({
-                url: "http://localhost:8888/api.php",
+                url: "http://localhost/api.php",
                 type: "POST",
                 data: d,
                 success: function(res) {

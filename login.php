@@ -13,8 +13,8 @@ if (isset($_SESSION["logged"])) {
 
 <body>
     <form action="index.php" method="POST">
-        <input type="text" name="user" value="sampras" />
-        <input type="text" name="pass" value="ciao" />
+        <input type="text" name="user" />
+        <input type="text" name="pass" />
         <input type="submit" value="login">
     </form>
 </body>

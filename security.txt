@@ -1,0 +1,3 @@
+# If you would like to report a security issue
+# you can use this email address
+Contact: @gorokizudev
