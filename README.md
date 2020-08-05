@@ -1,6 +1,6 @@
 ## yt2mega
 
-WatchTower is a free webtool that automatically downloads youtube videos, converts them into MP3s and uploads them to your personal MEGA.NZ account
+yt2mega is a free webtool that automatically downloads youtube videos, converts them into MP3s and uploads them to your personal MEGA.NZ account
 
 File conversion happens on the server, but upload to MEGA servers happens on the client side, so your API Keys are never submitted to the server.
 
