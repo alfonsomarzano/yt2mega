@@ -48,9 +48,10 @@ if (!isset($_SESSION["logged"])) {
                     Artista:
                     <input id="txtArtist" type="text" class="form-control" />
                     Album:
-                    <input id="txtlbum" type="text" class="form-control" /></div>
+                    <input id="txtAlbum" type="text" class="form-control" /></div>
                 <span id="cmdDownload" class="float-right btn btn-primary" style="margin-top:10px">Download</span>
             </div>
+            <div id="debugLog"></div>
         </div>
     </div>
 
@@ -74,7 +75,7 @@ if (!isset($_SESSION["logged"])) {
             d.album = $("#txtAlbum").val();
 
             $.ajax({
-                url: "http://localhost/api.php",
+                url: "api.php",
                 type: "POST",
                 data: d,
                 success: function(res) {
@@ -87,6 +88,7 @@ if (!isset($_SESSION["logged"])) {
                         $(e.target).addClass("btn-danger");
                         $(e.target).removeClass("btn-success");
                     }
+                    $('#debugLog').html(res.content);
                 }
             });
         });
@@ -114,7 +116,7 @@ if (!isset($_SESSION["logged"])) {
             d.url = link;
             d.op = "meta";
             $.ajax({
-                url: "http://localhost/api.php",
+                url: "api.php",
                 type: "POST",
                 data: d,
                 success: function(res) {

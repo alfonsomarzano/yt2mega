@@ -1,12 +1,12 @@
 <?php
 header('Content-type: application/json');
 try {
-    switch ($_POST["op"]) {
+    switch ($_REQUEST["op"]) {
         case "meta":
-            $res["content"] = youtube_info($_POST["url"]);
+            $res["content"] = youtube_info($_REQUEST["url"]);
             break;
         case "download":
-            start_download($_POST["url"], $_POST["title"], $_POST["artist"], $_POST["album"]);
+            $res["content"] = start_download($_REQUEST["url"], $_REQUEST["title"], $_REQUEST["artist"], $_REQUEST["album"]);
             break;
         default:
             throw new Exception("Operation not managed");
@@ -21,6 +21,7 @@ echo json_encode($res);
 
 function youtube_info($url)
 {
+    cleanURL($url);
     $output = get_youtube_info_command($url);
     $output = explode("\n", $output);
     $infos["title"] = $output[0];
@@ -38,6 +39,7 @@ function get_youtube_info_command($url)
 
 function start_download($url, $title, $artist, $album)
 {
+    cleanURL($url);
     if (!empty($artist) && !empty($album)) {
         $path = "downloads/" . $artist . "/" . $album;
     } else {
@@ -46,10 +48,23 @@ function start_download($url, $title, $artist, $album)
     if (empty($title)) {
         $title = youtube_info($url)["title"];
     }
-    $cmd = 'youtube-dl -x --audio-format "mp3" --postprocessor-args "-metadata album=\"' . $album . '\" -metadata artist=\"' . $artist . '\"" --output "' . $path . '/' . $title . '.%(ext)s" ' . $url;
+    $cmd = 'youtube-dl -x --audio-format "mp3" --postprocessor-args "-metadata album=\"' . $album . '\" -metadata artist=\"' . $artist . '\" -metadata title=\"' . $title . '\"" --output "' . $path . '/' . $title . '.%(ext)s" ' . $url;
+    //echo $cmd;
+    return nl2br($cmd . "\n\n\n" . shell_exec($cmd));
+    // $out = shell_exec($cmd);
+    // if (strpos($out, "ERROR")) {
+    //     throw new Exception("Error while downloading");
+    // }
+}
 
-    $out = shell_exec($cmd);
-    if (strpos($out, "ERROR")) {
-        throw new Exception("Error while downloading");
+function cleanURL(&$url)
+{
+    $qs = explode('?', $url)[1];
+    $params = explode("&", $qs);
+    foreach ($params as $p) {
+        if (substr($p, 0, 2) == "v=") {
+            $url = 'https://youtube.com/watch?' . $p;
+        }
+        break;
     }
 }
